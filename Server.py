@@ -3,8 +3,7 @@
 import time
 from flask_jsonpify import jsonpify
 from flask import Flask, request, jsonify
-import os
-from flask import Flask, jsonify, render_template
+# import osk
 from flask import make_response, url_for, Blueprint
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.svm import SVC, NuSVC
@@ -140,30 +139,20 @@ def preprocessingDataFile():
     global y_test
     print("nan ", nan)
     # return "nan"
-    for x in data_frame:
-        count = data_frame[x].isna().sum()
-        print('\n\n count 1 \n\n\n',count)
-        
-        if count > 0 and data_frame[x].dtype != 'object':
-            data_frame[x] = data_frame[x].fillna(data_frame[x].mean())
-            
-        count = data_frame[x].isna().sum()
-        print('\n\n count 2 \n\n\n',count)
-    # # print('\n\n count \n\n\n',count)
-    # if nan != 0:
-    #     # nanRemoval = 5
-    #     # print("\n\n\n data_frame1 \n\n\n\n",data_frame1)
-    #     # data_frame1 = data_frame1.fillna(data_frame1.mean())
-    #     data_frame = data_frame.fillna(data_frame.mean())
-    # print('\nnans after removing\n')
-    # print(data_frame.isnull().sum().sum())
+    if nan != 0:
+        # nanRemoval = 5
+        # print("\n\n\n data_frame1 \n\n\n\n",data_frame1)
+        # data_frame1 = data_frame1.fillna(data_frame1.mean())
+        data_frame = data_frame.fillna(data_frame.mean())
+    print('\nnans after removing\n')
+    print(data_frame.isnull().sum().sum())
     from sklearn.preprocessing import OneHotEncoder, LabelEncoder
     # ohe = OneHotEncoder()
     le = LabelEncoder()
 
     # Converting columns from object dtype to int if there is any in the dataframe
     for x in data_frame.columns:
-        if data_frame[x].dtype == 'object' and data_frame[x].dtype != 'float' and data_frame[x].dtype == 'str':
+        if data_frame[x].dtype == 'object':
             data_frame[x] = le.fit_transform(data_frame[x])
 
     # Replace negative numbers in Pandas Data Frame by zero
@@ -734,9 +723,9 @@ def singlePrediction():
     # predictedFile()
         
     y_pred2 = y_pred.values.tolist()
-    y_pred2 = jsonpify(y_pred2)
+    #y_pred2 = jsonpify(y_pred2)
     y_test2 = y_test.values.tolist()
-    y_test2 = jsonpify(y_test2)
+   # y_test2 = jsonpify(y_test2)
     # print("\n\n\n y_pred first 1 \n\n\n\n",y_pred)
     # columnData = {
     #     "data": [
@@ -749,11 +738,11 @@ def singlePrediction():
     # }
     # return jsonify([columnData])
 
-    return y_pred2
+    # return y_pred2
     # return y_pred2   
-    print("\n\n\n y_pred2 \n\n\n\n",type(y_pred2))
-    print("\n\n\n y_test2 \n\n\n\n",type(y_test2)) 
-    return (y_pred2,y_test2)
+    # print("\n\n\n y_pred2 \n\n\n\n",y_pred2.shape)
+    # print("\n\n\n y_test2 \n\n\n\n",y_test2.shape) 
+    return jsonify(y_pred2,y_test2)
 
 
 
@@ -772,10 +761,12 @@ def columnsNames():
     # data_frame3 = data_frame1.drop( axis=0)
     # print("\n\n data_frame3: \n\n\n", data_frame1(axis=0) ) 
     data_frame2 = data_frame1.values.tolist()
-    data_frame2 = jsonpify(data_frame2)
-
+    # #data_frame2 = jsonpify(data_frame2)
+    # print("\n\n\n columns \n\n", columns)
+    # print("\n\n\n dataframe2 \n\n",data_frame2)
     # return data_frame2
     return jsonify(columns)
+    return jsonify(columns,data_frame2)
     # return "column names"
 
 # #########################################################################################################################
@@ -815,32 +806,32 @@ def firstColumn():
 # Returning the predicted values of the column selected
 
 
-@app.route('/predictedFile/', methods=['POST', 'GET'])
-@cross_origin(allow_headers=['http://localhost:4200'])
-def predictedFile():
-    global X_train
-    global X_test
-    global y_train
-    global y_test
-    global algorithm
-    global linear
-    global LR_clf
-    global DT_clf
-    global knn_clf
-    global svc_clf
-    global nbclf
-    global RF_clf
-    global data_frame1
-    global y_pred
-    print("\n\n\n y_pred \n\n\n\n",y_pred)
-    # print("\n\n\n y_test \n\n\n\n",y_test)
-    print("\n\n\n data_frame \n\n\n\n",data_frame)
+# @app.route('/predictedFile/', methods=['POST', 'GET'])
+# @cross_origin(allow_headers=['http://localhost:4200'])
+# def predictedFile():
+#     global X_train
+#     global X_test
+#     global y_train
+#     global y_test
+#     global algorithm
+#     global linear
+#     global LR_clf
+#     global DT_clf
+#     global knn_clf
+#     global svc_clf
+#     global nbclf
+#     global RF_clf
+#     global data_frame1
+#     global y_pred
+#     print("\n\n\n y_pred \n\n\n\n",y_pred)
+#     # print("\n\n\n y_test \n\n\n\n",y_test)
+#     print("\n\n\n data_frame \n\n\n\n",data_frame)
 
-    y_pred2 = y_pred.values.tolist()
-    # y_pred2 = jsonpify(y_pred2)        
+#     y_pred2 = y_pred.values.tolist()
+#     # y_pred2 = jsonpify(y_pred2)        
         
-    print("\n\n y_pred2 \n", type(y_pred2))
-    return jsonify(y_pred2)
+#     print("\n\n y_pred2 \n", type(y_pred2))
+#     return jsonify(y_pred2)
 
 
 # ##########################################################################################################################
@@ -851,33 +842,14 @@ def predictedFile():
 @app.route('/dataFileDetails/', methods=['POST', 'GET'])
 @cross_origin(allow_headers=['http://localhost:4200'])
 def dataFileDetails():
-    print('\n\nrequest\n\n')
-    print(request)
     col_name1 = request.form['name1']
-    col_name2 = request.form['name2']
     print(col_name1)
-    print(col_name2)
-    # col_name = request.data
-    # print(request.data)
-    # col_name1 = col_name1.decode('utf-8')
-    # col_name2 = col_name2.decode('utf-8')
-    print('Calling the uplaod file2: ')
-    global data_frame
-    # global X_data
-    # X_data = data_frame1.iloc[:, :-1]
-    # y_data = data_frame1.iloc[:, [-1]]
-    # X_data = X_data.to_json()
-    # y_data = y_data.to_json()
-    col_categories = data_frame[col_name1].value_counts()
+    global data_frame1
     # particular column is the column that is to be predicted
-    particular_column = data_frame[col_name1]
-    particular_column = particular_column.to_json()
-    y_data = data_frame[col_name2]
-    y_data = y_data.to_json()
-    col_categories = col_categories.to_string()
-    return jsonify(col_categories, particular_column, y_data)
-
-
+    particular_column = data_frame1[col_name1]
+    # particular_column = particular_column.to_json()
+    particular_column = particular_column.values.tolist()
+    return jsonify(particular_column)
 
 
 if __name__ == "__main__":
