@@ -1,0 +1,9 @@
+{
+    "python.testing.pytestArgs": [
+        "Flask"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.pythonPath": "C:\\Users\\BABAR ALI SHAH\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"
+}
