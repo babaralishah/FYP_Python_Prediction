@@ -754,20 +754,9 @@ def singlePrediction():
 @app.route('/columnsNames/', methods=['POST', 'GET'])
 @cross_origin(allow_headers=['http://localhost:4200'])
 def columnsNames():
-    global X
-    global data_frame1
-    # Names of all the columns of the file
     columns = list(data_frame1.columns.values)
-    # data_frame3 = data_frame1.drop( axis=0)
-    # print("\n\n data_frame3: \n\n\n", data_frame1(axis=0) ) 
     data_frame2 = data_frame1.values.tolist()
-    # #data_frame2 = jsonpify(data_frame2)
-    # print("\n\n\n columns \n\n", columns)
-    # print("\n\n\n dataframe2 \n\n",data_frame2)
-    # return data_frame2
-    # return jsonify(columns)
     return jsonify(columns,data_frame2)
-    # return "column names"
 
 # #########################################################################################################################
 
