@@ -96,7 +96,7 @@ y_pred = None
 
 @app.route('/')
 def index():
-    return 'abcdef'
+    return 'Automated ML Prediction Tool '
 
 
 # ###########################################################################################################################
@@ -765,7 +765,7 @@ def columnsNames():
     # print("\n\n\n columns \n\n", columns)
     # print("\n\n\n dataframe2 \n\n",data_frame2)
     # return data_frame2
-    return jsonify(columns)
+    # return jsonify(columns)
     return jsonify(columns,data_frame2)
     # return "column names"
 
@@ -792,57 +792,22 @@ def predictedColumn():
 def firstColumn():
     global X
     global data_frame
-    X2 = data_frame1.iloc[:,0]
+    firstColumn = data_frame1.iloc[:,0]
     print (data_frame1)
-    X2 = X2.values.tolist()
+    firstColumn = firstColumn.values.tolist()
     # y2 = jsonpify(y2)
-    print("\n\n X2 \n", type(X2))
-    return jsonify(X2)
-
-    return "column names"
-
-# #########################################################################################################################
-
-# Returning the predicted values of the column selected
-
-
-# @app.route('/predictedFile/', methods=['POST', 'GET'])
-# @cross_origin(allow_headers=['http://localhost:4200'])
-# def predictedFile():
-#     global X_train
-#     global X_test
-#     global y_train
-#     global y_test
-#     global algorithm
-#     global linear
-#     global LR_clf
-#     global DT_clf
-#     global knn_clf
-#     global svc_clf
-#     global nbclf
-#     global RF_clf
-#     global data_frame1
-#     global y_pred
-#     print("\n\n\n y_pred \n\n\n\n",y_pred)
-#     # print("\n\n\n y_test \n\n\n\n",y_test)
-#     print("\n\n\n data_frame \n\n\n\n",data_frame)
-
-#     y_pred2 = y_pred.values.tolist()
-#     # y_pred2 = jsonpify(y_pred2)        
-        
-#     print("\n\n y_pred2 \n", type(y_pred2))
-#     return jsonify(y_pred2)
-
+    print("\n\n firstColumn \n", type(firstColumn))
+    return jsonify(firstColumn)
 
 # ##########################################################################################################################
 
 # Returning the required visualization data
 
 
-@app.route('/dataFileDetails/', methods=['POST', 'GET'])
+@app.route('/particular_column/', methods=['POST', 'GET'])
 @cross_origin(allow_headers=['http://localhost:4200'])
 def dataFileDetails():
-    col_name1 = request.form['name1']
+    col_name1 = request.form['PredictedColumnName']
     print(col_name1)
     global data_frame1
     # particular column is the column that is to be predicted
@@ -854,3 +819,6 @@ def dataFileDetails():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
+
+# #########################################################################################################################
