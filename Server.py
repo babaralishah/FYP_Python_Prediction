@@ -34,29 +34,6 @@ from flask import jsonify
 import warnings
 from string import Template
 warnings.filterwarnings("ignore", category=FutureWarning)
-
-# import various ML algorithms to be used from the library
-# Naive Bayes Classifier
-
-# SVM
-
-# LabelEncoder
-
-# KNN
-
-# Splitting
-
-# NB
-
-# Logistic Regression
-
-# DTClassifier
-
-# RFC
-# from flask_restful import Resource, Api;
-# Required Imports
-# from firebase_admin import credentials, firestore, initialize_app
-
 app = Flask(__name__)
 
 # firebase = firebase.FirebaseApplication('https://testwhatsapp-pxqrtl.firebaseio.com/', None)
@@ -197,16 +174,21 @@ def preprocessingDataFile():
             {
 
                 "preprocesstime": preprocesstime,
+<<<<<<< HEAD
                 "preprocesstechnique": "Removing NULL"
+=======
+                "preprocesstechnique": "Removing Null"
+>>>>>>> 1cf963ff6f4d26f138c509678ce3535bbd91912c
             },
             {
 
                 "preprocesstime": preprocesstime + 2,
-                "preprocesstechnique": "Feature scaling"
+                "preprocesstechnique": "Feature Scaling"
             },
             {
 
                 "preprocesstime": preprocesstime + 1,
+<<<<<<< HEAD
                 "preprocesstechnique": "Splitting the dataset"
             },
             # {
@@ -214,6 +196,10 @@ def preprocessingDataFile():
             #     "preprocesstime": preprocesstime + 1,
             #     "preprocesstechnique": "PCA transformation"
             # }
+=======
+                "preprocesstechnique": "Splitting the Dataset"
+            }
+>>>>>>> 1cf963ff6f4d26f138c509678ce3535bbd91912c
 
         ]
     }
@@ -398,6 +384,7 @@ def predictionPerform():
     # Start calculating the time
     start = time.time()
 
+<<<<<<< HEAD
     # Model Validation:
 
     # Predict Linear Regression
@@ -539,6 +526,97 @@ def predictionPerform():
     }
     print(results)
     return jsonify([results])
+=======
+        # Predict Linear Regression
+        # y_pred = nbclf.predict(X_test)
+
+        # print("\n\n\ny_pred", y_pred, "\n\n\n\n")
+        # print("\n\n\nX_test", X_test, "\n\n\n\n")
+        # Accuracy of Logistic Regression
+        # print("\nLinear Regression Accuracy Score:\t", linear.score(
+        #     X_test, y_test)*100, "\t\t\t\t", linear.score(X_train, y_train)*100)
+        linear_test = linear.score(X_test, y_test)*100
+        linear_train = linear.score(X_train, y_train)*100
+        # Stops the watch
+        end = time.time()
+        start = time.time()
+        lr_test = LR_clf.score(X_test, y_test)*100
+        lr_train = LR_clf.score(X_train, y_train)*100
+        # Stops the watch
+        end = time.time()
+        start = time.time()
+        dt_test = DT_clf.score(X_test, y_test)*100
+        dt_train = DT_clf.score(X_train, y_train)*100
+        # Stops the watch
+        end = time.time()
+        start = time.time()
+        #     X_test, y_test)*100, "\t\t\t\t", knn_clf.score(X_train, y_train)*100)
+        end = time.time()
+        knn_test = knn_clf.score(X_test, y_test)*100
+        knn_train = knn_clf.score(X_train, y_train)*100
+        start = time.time()
+        end = time.time()
+        rnn_test = RF_clf.score(X_test, y_test)*100
+        rnn_train = RF_clf.score(X_train, y_train)*100
+        start = time.time()
+        nbclf_test = nbclf.score(X_test, y_test)*100
+        nbclf_train = nbclf.score(X_train, y_train)*100
+        # Stops the watch
+        end = time.time()
+        svc_test = svc_clf.score(X_test, y_test)*100
+        svc_train = svc_clf.score(X_train, y_train)*100
+        
+
+        results = {
+            "data": [
+                {
+                    "Algorithm": "Linear Regression",
+                    "Test data Accuracy": linear_test,
+                    "Train data Accuracy": linear_train,
+                    "TrainingTime": lr_time
+
+                },
+                {
+                    "Algorithm": "Logistic Regression",
+                    "Test data Accuracy": lr_test,
+                    "Train data Accuracy": lr_train,
+                    "TrainingTime": lrclf_time
+
+                }, {
+                    "Algorithm": "Decision Tree",
+                    "Test data Accuracy": dt_test,
+                    "Train data Accuracy": dt_train,
+                    "TrainingTime": dt_time
+                },  {
+                    "Algorithm": "K nearest neighbor",
+                    "Test data Accuracy": knn_test,
+                    "Train data Accuracy": knn_train,
+                    "TrainingTime": knn_time
+                },  
+                # {
+                #     "Algorithm": "Naive Bayes",
+                #     "Test data Accuracy": nbclf_test,
+                #     "Train data Accuracy": nbclf_train,
+                #     "TrainingTime": nbclf_time
+                # }, 
+                # {
+                #     "Algorithm": "Random Forest",
+                #     "Test data Accuracy": rnn_test,
+                #     "Train data Accuracy": rnn_train,
+                #     "TrainingTime": rf_time
+                # },
+                # {
+                #     "Algorithm": "Support Vector Machine",
+                #     "Test data Accuracy": svc_test,
+                #     "Train data Accuracy": svc_train,
+                #     "TrainingTime": svc_time
+                # }
+
+            ]
+        }
+        print (results)
+        return jsonify([results])
+>>>>>>> 1cf963ff6f4d26f138c509678ce3535bbd91912c
 
 
 # ##########################################################################################################################
@@ -587,6 +665,7 @@ def singlePrediction():
 
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
+<<<<<<< HEAD
         print(type(y_pred))
         print("\n\n Pandas DataFrame: \n\n\n", y_pred)
 
@@ -601,6 +680,9 @@ def singlePrediction():
 
         # return "d"
     elif algorithm == '2':
+=======
+    elif algorithm  == '2':
+>>>>>>> 1cf963ff6f4d26f138c509678ce3535bbd91912c
         LR_clf = LogisticRegression()
         LR_clf.fit(X_train, y_train)
 
@@ -616,6 +698,7 @@ def singlePrediction():
 
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
+<<<<<<< HEAD
         print(type(y_pred))
         print("\n\n Pandas DataFrame: \n\n\n", y_pred)
 
@@ -627,6 +710,10 @@ def singlePrediction():
         # return y_pred
 
     elif algorithm == '3':
+=======
+    
+    elif algorithm  == '3':
+>>>>>>> 1cf963ff6f4d26f138c509678ce3535bbd91912c
         DT_clf = DecisionTreeClassifier()
         DT_clf.fit(X_train, y_train)
 
@@ -641,6 +728,7 @@ def singlePrediction():
 
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
+<<<<<<< HEAD
         print(type(y_pred))
         print("\n\n Pandas DataFrame: \n\n\n", y_pred)
 
@@ -651,6 +739,10 @@ def singlePrediction():
         # return y_pred
 
     elif algorithm == '4':
+=======
+    
+    elif algorithm  == '4':
+>>>>>>> 1cf963ff6f4d26f138c509678ce3535bbd91912c
         knn_clf = KNeighborsClassifier(n_neighbors=1)
         knn_clf.fit(X_train, y_train)
 
@@ -666,6 +758,7 @@ def singlePrediction():
 
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
+<<<<<<< HEAD
         print(type(y_pred))
         print("\n\n Pandas DataFrame: \n\n\n", y_pred)
 
@@ -676,6 +769,10 @@ def singlePrediction():
         # return y_pred
 
     elif algorithm == '5':
+=======
+    
+    elif algorithm  == '5':
+>>>>>>> 1cf963ff6f4d26f138c509678ce3535bbd91912c
         nbclf = naive_bayes.GaussianNB()
         nbclf.fit(X_train, y_train)
 
@@ -690,12 +787,15 @@ def singlePrediction():
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
         print(type(y_pred))
+<<<<<<< HEAD
         print("\n\n Pandas DataFrame: \n\n\n", y_pred)
 
         # y_pred = y_pred.values.tolist()
         # y_pred = jsonpify(y_pred)
 
         print(type(y_pred))
+=======
+>>>>>>> 1cf963ff6f4d26f138c509678ce3535bbd91912c
         # return y_pred
 
     elif algorithm == '6':
@@ -713,6 +813,7 @@ def singlePrediction():
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
         print(type(y_pred))
+<<<<<<< HEAD
         print("\n\n Pandas DataFrame: \n\n\n", y_pred)
 
         # y_pred = y_pred.values.tolist()
@@ -744,6 +845,14 @@ def singlePrediction():
     # print("\n\n\n y_pred2 \n\n\n\n",y_pred2.shape)
     # print("\n\n\n y_test2 \n\n\n\n",y_test2.shape)
     return jsonify(y_pred2, y_test2)
+=======
+        print("\n\n Pandas DataFrame: \n\n\n",y_pred ) 
+    y_pred2 = y_pred.values.tolist()
+    #y_pred2 = jsonpify(y_pred2)
+    y_test2 = y_test.values.tolist()
+    return jsonify(y_pred2,y_test2)
+
+>>>>>>> 1cf963ff6f4d26f138c509678ce3535bbd91912c
 
 
 # #########################################################################################################################
@@ -787,6 +896,25 @@ def firstColumn():
     # y2 = jsonpify(y2)
     print("\n\n firstColumn \n", type(firstColumn))
     return jsonify(firstColumn)
+
+
+# #########################################################################################################################
+
+# Returning the predicted values of the column selected
+
+
+@app.route('/futureYearPrediction/', methods=['POST', 'GET'])
+@cross_origin(allow_headers=['http://localhost:4200'])
+def futureYearPrediction():
+    global X
+    global data_frame
+    firstColumn = data_frame1.iloc[:,0]
+    print (data_frame1)
+    firstColumn = firstColumn.values.tolist()
+    # y2 = jsonpify(y2)
+    print("\n\n firstColumn \n", type(firstColumn))
+    return jsonify(firstColumn)
+
 
 # ##########################################################################################################################
 
