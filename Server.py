@@ -776,12 +776,14 @@ def firstColumn():
 def futureYearPrediction():
     global X
     global data_frame
+    years = request.data();
     firstColumn = data_frame1.iloc[:,0]
     print (data_frame1)
     firstColumn = firstColumn.values.tolist()
     # y2 = jsonpify(y2)
+    y_pred = linear.predict(years)
     print("\n\n firstColumn \n", type(firstColumn))
-    return jsonify(firstColumn)
+    return jsonify(y_pred)
 
 
 # ##########################################################################################################################
