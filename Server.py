@@ -114,7 +114,7 @@ def getTheDataFile():
         print('File received at rest service: ' + 'public/files/'+file.filename)
         global data_frame1
         data_frame1 = pd.read_csv('public/files/'+file.filename)
-        
+
         global data_frame
         data_frame = pd.read_csv('public/files/'+file.filename)
         return 'true'
@@ -197,7 +197,7 @@ def preprocessingDataFile():
             {
 
                 "preprocesstime": preprocesstime,
-                "preprocesstechnique": "Removing Nan"
+                "preprocesstechnique": "Removing NULL"
             },
             {
 
@@ -209,11 +209,11 @@ def preprocessingDataFile():
                 "preprocesstime": preprocesstime + 1,
                 "preprocesstechnique": "Splitting the dataset"
             },
-            {
+            # {
 
-                "preprocesstime": preprocesstime + 1,
-                "preprocesstechnique": "PCA transformation"
-            }
+            #     "preprocesstime": preprocesstime + 1,
+            #     "preprocesstechnique": "PCA transformation"
+            # }
 
         ]
     }
@@ -266,277 +266,279 @@ def trainingTime():
 @cross_origin(allow_headers=['http://localhost:4200'])
 def predictionPerform():
 
-        global data_frame1
-        global data_frame
+    global data_frame1
+    global data_frame
 
-        # Linear Regression
-        global linear
-        linear = LinearRegression()
+    # Linear Regression
+    global linear
+    linear = LinearRegression()
 
-        # LogisticRegression
-        global LR_clf
-        LR_clf = LogisticRegression()
+    # LogisticRegression
+    global LR_clf
+    LR_clf = LogisticRegression()
 
-        # DecisionTreeClassifier
-        global DT_clf
-        DT_clf = DecisionTreeClassifier()
+    # DecisionTreeClassifier
+    global DT_clf
+    DT_clf = DecisionTreeClassifier()
 
-        # KNeighborsClassifier
-        global knn_clf
-        knn_clf = KNeighborsClassifier(n_neighbors=1)
+    # KNeighborsClassifier
+    global knn_clf
+    knn_clf = KNeighborsClassifier(n_neighbors=1)
 
-        # Support Vector Machine
-        global svc_clf
-        svc_clf = SVC()
+    # Support Vector Machine
+    global svc_clf
+    svc_clf = SVC()
 
-        # naive_bayes
-        global nbclf
-        nbclf = naive_bayes.GaussianNB()
+    # naive_bayes
+    global nbclf
+    nbclf = naive_bayes.GaussianNB()
 
-        # RandomForestClassifier
-        global RF_clf
-        RF_clf = RandomForestClassifier(random_state=5)
-        
-        print('step-03')
+    # RandomForestClassifier
+    global RF_clf
+    RF_clf = RandomForestClassifier(random_state=5)
 
-        # Feed the Model:
+    print('step-03')
 
-        # Training of Models on Train set
+    # Feed the Model:
 
-        start = time.time()
-        # fit the model with data
-        global lr_time
-        linear.fit(X_train, y_train)
+    # Training of Models on Train set
 
-        end = time.time()
-        lr_time = end - start
-        # Calculating the processing time
-        # import time
+    start = time.time()
+    # fit the model with data
+    global lr_time
+    linear.fit(X_train, y_train)
 
-        print('step-04')
-        start = time.time()
+    end = time.time()
+    lr_time = end - start
+    # Calculating the processing time
+    # import time
 
-        # fit the model with data
-        LR_clf.fit(X_train, y_train)
+    print('step-04')
+    start = time.time()
 
-        print('step-05')
-        # Stops the watch
-        end = time.time()
-        global lrclf_time
-        lrclf_time = end - start
-        # Calculates the consumed time
-        # print("\nExecution time of Linear regression training: ", end - start)
+    # fit the model with data
+    LR_clf.fit(X_train, y_train)
 
-        # Start calculating the time
-        start = time.time()
+    print('step-05')
+    # Stops the watch
+    end = time.time()
+    global lrclf_time
+    lrclf_time = end - start
+    # Calculates the consumed time
+    # print("\nExecution time of Linear regression training: ", end - start)
 
-        # Stops the watch
-        end = time.time()
+    # Start calculating the time
+    start = time.time()
 
-        # Calculates the consumed time
-        # print("\nExecution time of Logistic regression training: ", end - start)
+    # Stops the watch
+    end = time.time()
 
-        start = time.time()
+    # Calculates the consumed time
+    # print("\nExecution time of Logistic regression training: ", end - start)
 
-        # fit the model with data
-        DT_clf.fit(X_train, y_train)
+    start = time.time()
 
-        end = time.time()
-        global dt_time
-        dt_time = end - start
-        # print("\nExecution time of Decision Tree training: ", end - start)
+    # fit the model with data
+    DT_clf.fit(X_train, y_train)
 
-        start = time.time()
+    end = time.time()
+    global dt_time
+    dt_time = end - start
+    # print("\nExecution time of Decision Tree training: ", end - start)
 
-        # fit the model with data
-        knn_clf.fit(X_train, y_train.values.ravel())
+    start = time.time()
 
-        # Stops the watch
-        end = time.time()
+    # fit the model with data
+    knn_clf.fit(X_train, y_train.values.ravel())
 
-        global knn_time
-        knn_time = end - start
-        # Calculates the consumed time
-        # print("\nExecution time of Knn training: ", end - start)
+    # Stops the watch
+    end = time.time()
 
-        # fit the model with data
+    global knn_time
+    knn_time = end - start
+    # Calculates the consumed time
+    # print("\nExecution time of Knn training: ", end - start)
 
-        start = time.time()
-        svc_clf.fit(X_train, y_train.values.ravel())
-        end = time.time()
-        global svc_time
-        svc_time = end - start
-        # print("\nExecution time of SVC training: ", end - start)
+    # fit the model with data
 
-        start = time.time()
+    start = time.time()
+    svc_clf.fit(X_train, y_train.values.ravel())
+    end = time.time()
+    global svc_time
+    svc_time = end - start
+    # print("\nExecution time of SVC training: ", end - start)
 
-        # fit the model with data
-        nbclf.fit(X_train, y_train.values.ravel())
+    start = time.time()
 
-        # Stops the watch
-        end = time.time()
-        global nbclf_time
-        nbclf_time = end - start
-        # Calculates the consumed time
-        # print("\nExecution time of Naive Bayes training: ", end - start)
+    # fit the model with data
+    nbclf.fit(X_train, y_train.values.ravel())
 
-        start = time.time()
+    # Stops the watch
+    end = time.time()
+    global nbclf_time
+    nbclf_time = end - start
+    # Calculates the consumed time
+    # print("\nExecution time of Naive Bayes training: ", end - start)
 
-        # fit the model with data
-        RF_clf.fit(X_train, y_train.values.ravel())
+    start = time.time()
 
-        # Stops the watch
-        end = time.time()
-        global rf_time
+    # fit the model with data
+    RF_clf.fit(X_train, y_train.values.ravel())
 
-        rf_time = end - start
-        # Calculates the consumed time
-        # print("\nExecution time of Random Forest training: ", end - start)
+    # Stops the watch
+    end = time.time()
+    global rf_time
 
-        print("\n\nModel \t\t\t\t\t Test Score\t\t\t\t\tTrain Score")
+    rf_time = end - start
+    # Calculates the consumed time
+    # print("\nExecution time of Random Forest training: ", end - start)
 
-        # Start calculating the time
-        start = time.time()
+    print("\n\nModel \t\t\t\t\t Test Score\t\t\t\t\tTrain Score")
 
-        # Model Validation:
+    # Start calculating the time
+    start = time.time()
 
-        # Predict Linear Regression
-        y_pred = nbclf.predict(X_test)
+    # Model Validation:
 
-        print("\n\n\ny_pred", y_pred, "\n\n\n\n")
-        print("\n\n\nX_test", X_test, "\n\n\n\n")
-        # Accuracy of Logistic Regression
-        # print("\nLinear Regression Accuracy Score:\t", linear.score(
-        #     X_test, y_test)*100, "\t\t\t\t", linear.score(X_train, y_train)*100)
-        linear_test = linear.score(X_test, y_test)*100
-        linear_train = linear.score(X_train, y_train)*100
-        # Stops the watch
-        end = time.time()
+    # Predict Linear Regression
+    y_pred = nbclf.predict(X_test)
 
-        # Calculates the consumed time
-        #print("\nExecution time of Linear regression Predicting: ",end - start)
+    print("\n\n\ny_pred", y_pred, "\n\n\n\n")
+    print("\n\n\nX_test", X_test, "\n\n\n\n")
+    # Accuracy of Logistic Regression
+    # print("\nLinear Regression Accuracy Score:\t", linear.score(
+    #     X_test, y_test)*100, "\t\t\t\t", linear.score(X_train, y_train)*100)
+    linear_test = linear.score(X_test, y_test)*100
+    linear_train = linear.score(X_train, y_train)*100
+    # Stops the watch
+    end = time.time()
 
-        # Start calculating the time
-        start = time.time()
+    # Calculates the consumed time
+    #print("\nExecution time of Linear regression Predicting: ",end - start)
 
-        # # Accuracy of Logistic Regression
-        # print("\nLogistic Regression Accuracy Score:\t", LR_clf.score(
-        #     X_test, y_test)*100, "\t\t\t\t", LR_clf.score(X_train, y_train)*100)
-        lr_test = LR_clf.score(X_test, y_test)*100
-        lr_train = LR_clf.score(X_train, y_train)*100
-        # Stops the watch
-        end = time.time()
+    # Start calculating the time
+    start = time.time()
 
-        # Calculates the consumed time
-        #print("\nExecution time of Logistic regression Predicting: ",end - start)
+    # # Accuracy of Logistic Regression
+    # print("\nLogistic Regression Accuracy Score:\t", LR_clf.score(
+    #     X_test, y_test)*100, "\t\t\t\t", LR_clf.score(X_train, y_train)*100)
+    lr_test = LR_clf.score(X_test, y_test)*100
+    lr_train = LR_clf.score(X_train, y_train)*100
+    # Stops the watch
+    end = time.time()
 
-        # Start calculating the time
-        start = time.time()
+    # Calculates the consumed time
+    #print("\nExecution time of Logistic regression Predicting: ",end - start)
 
-        # Accuracy of Decision Tree
-        # print("\nDecision Tree Accuracy Score:\t\t", DT_clf.score(
-        #     X_test, y_test)*100, "\t\t\t\t", DT_clf.score(X_train, y_train)*100)
-        dt_test = DT_clf.score(X_test, y_test)*100
-        dt_train = DT_clf.score(X_train, y_train)*100
-        # Stops the watch
-        end = time.time()
-        # Calculates the consumed time
-        #print("\nExecution time of Decision Tree Predicting: ",end - start)
+    # Start calculating the time
+    start = time.time()
 
-        # Start calculating the time
-        start = time.time()
+    # Accuracy of Decision Tree
+    # print("\nDecision Tree Accuracy Score:\t\t", DT_clf.score(
+    #     X_test, y_test)*100, "\t\t\t\t", DT_clf.score(X_train, y_train)*100)
+    dt_test = DT_clf.score(X_test, y_test)*100
+    dt_train = DT_clf.score(X_train, y_train)*100
+    # Stops the watch
+    end = time.time()
+    # Calculates the consumed time
+    #print("\nExecution time of Decision Tree Predicting: ",end - start)
 
-        # Accuracy of K nearest Neighbours (KNN)
-        # print("\nK nearest Neighbours Accuracy Score:\t", knn_clf.score(
-        #     X_test, y_test)*100, "\t\t\t\t", knn_clf.score(X_train, y_train)*100)
-        end = time.time()
-        knn_test = knn_clf.score(X_test, y_test)*100
-        knn_train = knn_clf.score(X_train, y_train)*100
-        # Calculates the consumed time
-        #print("\nExecution time of Knn Predicting: ",end - start)
+    # Start calculating the time
+    start = time.time()
 
-        # Start calculating the time
-        start = time.time()
+    # Accuracy of K nearest Neighbours (KNN)
+    # print("\nK nearest Neighbours Accuracy Score:\t", knn_clf.score(
+    #     X_test, y_test)*100, "\t\t\t\t", knn_clf.score(X_train, y_train)*100)
+    end = time.time()
+    knn_test = knn_clf.score(X_test, y_test)*100
+    knn_train = knn_clf.score(X_train, y_train)*100
+    # Calculates the consumed time
+    #print("\nExecution time of Knn Predicting: ",end - start)
 
-        # Accuracy of Rabdom Forest
-        # print("\nRandom Forest Accuracy Score:\t\t", RF_clf.score(
-        #     X_test, y_test)*100, "\t\t\t\t", RF_clf.score(X_train, y_train)*100)
-        # rf = RF_clf.score(X_test, y_test)*100
-        # Stops the watch
-        end = time.time()
-        rnn_test = RF_clf.score(X_test, y_test)*100
-        rnn_train = RF_clf.score(X_train, y_train)*100
+    # Start calculating the time
+    start = time.time()
 
-        # Calculates the consumed time
-        #print("\nExecution time of Random Forest Predicting: ",end - start)
+    # Accuracy of Rabdom Forest
+    # print("\nRandom Forest Accuracy Score:\t\t", RF_clf.score(
+    #     X_test, y_test)*100, "\t\t\t\t", RF_clf.score(X_train, y_train)*100)
+    # rf = RF_clf.score(X_test, y_test)*100
+    # Stops the watch
+    end = time.time()
+    rnn_test = RF_clf.score(X_test, y_test)*100
+    rnn_train = RF_clf.score(X_train, y_train)*100
 
-        # Start calculating the time
-        start = time.time()
+    # Calculates the consumed time
+    #print("\nExecution time of Random Forest Predicting: ",end - start)
 
-        # Accuracy of Naive Bayes Gaussian
-        # print("\nNaive Bayes Gaussian Accuracy Score:\t", nbclf.score(
-        #     X_test, y_test)*100, "\t\t\t\t", nbclf.score(X_test, y_test)*100)
-        nbclf_test = nbclf.score(X_test, y_test)*100
-        nbclf_train = nbclf.score(X_train, y_train)*100
-        # Stops the watch
-        end = time.time()
-        #global svc
-        # Accuracy of Naive Bayes Gaussian
-        # print("\nSupport Vector Machine Accuracy Score:\t", svc_clf.score(
-        #     X_test, y_test)*100, "\t\t\t\t", svc_clf.score(X_test, y_test)*100)
+    # Start calculating the time
+    start = time.time()
 
-        svc_test = svc_clf.score(X_test, y_test)*100
-        svc_train = svc_clf.score(X_train, y_train)*100
-        
-        print('step-04')
-        #abc = 'hello'
+    # Accuracy of Naive Bayes Gaussian
+    # print("\nNaive Bayes Gaussian Accuracy Score:\t", nbclf.score(
+    #     X_test, y_test)*100, "\t\t\t\t", nbclf.score(X_test, y_test)*100)
+    nbclf_test = nbclf.score(X_test, y_test)*100
+    nbclf_train = nbclf.score(X_train, y_train)*100
+    # Stops the watch
+    end = time.time()
+    #global svc
+    # Accuracy of Naive Bayes Gaussian
+    # print("\nSupport Vector Machine Accuracy Score:\t", svc_clf.score(
+    #     X_test, y_test)*100, "\t\t\t\t", svc_clf.score(X_test, y_test)*100)
 
-        results = {
-            "data": [
-                {
-                    "Algorithm": "Linear Regression",
-                    "Test data Accuracy": linear_test,
-                    "Train data Accuracy": linear_train,
-                    "TrainingTime": lr_time
+    svc_test = svc_clf.score(X_test, y_test)*100
+    svc_train = svc_clf.score(X_train, y_train)*100
 
-                },
-                {
-                    "Algorithm": "Logistic Regression",
-                    "Test data Accuracy": lr_test,
-                    "Train data Accuracy": lr_train,
-                    "TrainingTime": lrclf_time
+    print('step-04')
+    #abc = 'hello'
 
-                }, {
-                    "Algorithm": "Decision Tree",
-                    "Test data Accuracy": dt_test,
-                    "Train data Accuracy": dt_train,
-                    "TrainingTime": dt_time
-                },  {
-                    "Algorithm": "K nearest neighbor",
-                    "Test data Accuracy": knn_test,
-                    "Train data Accuracy": knn_train,
-                    "TrainingTime": knn_time
-                },  {
-                    "Algorithm": "Naive Bayes",
-                    "Test data Accuracy": nbclf_test,
-                    "Train data Accuracy": nbclf_train,
-                    "TrainingTime": nbclf_time
-                }, {
-                    "Algorithm": "Random Forest",
-                    "Test data Accuracy": rnn_test,
-                    "Train data Accuracy": rnn_train,
-                    "TrainingTime": rf_time
-                }, {
-                    "Algorithm": "Support Vector Machine",
-                    "Test data Accuracy": svc_test,
-                    "Train data Accuracy": svc_train,
-                    "TrainingTime": svc_time
-                }
+    results = {
+        "data": [
+            {
+                "Algorithm": "Linear Regression",
+                "Test data Accuracy": linear_test,
+                "Train data Accuracy": linear_train,
+                "TrainingTime": lr_time
 
-            ]
-        }
-        print (results)
-        return jsonify([ results])
+            },
+            {
+                "Algorithm": "Logistic Regression",
+                "Test data Accuracy": lr_test,
+                "Train data Accuracy": lr_train,
+                "TrainingTime": lrclf_time
+
+            }, {
+                "Algorithm": "Decision Tree",
+                "Test data Accuracy": dt_test,
+                "Train data Accuracy": dt_train,
+                "TrainingTime": dt_time
+            },  {
+                "Algorithm": "K nearest neighbor",
+                "Test data Accuracy": knn_test,
+                "Train data Accuracy": knn_train,
+                "TrainingTime": knn_time
+            },  {
+                "Algorithm": "Naive Bayes",
+                "Test data Accuracy": nbclf_test,
+                "Train data Accuracy": nbclf_train,
+                "TrainingTime": nbclf_time
+            },
+            # {
+            #     "Algorithm": "Random Forest",
+            #     "Test data Accuracy": rnn_test,
+            #     "Train data Accuracy": rnn_train,
+            #     "TrainingTime": rf_time
+            # },
+            {
+                "Algorithm": "Support Vector Machine",
+                "Test data Accuracy": svc_test,
+                "Train data Accuracy": svc_train,
+                "TrainingTime": svc_time
+            }
+
+        ]
+    }
+    print(results)
+    return jsonify([results])
 
 
 # ##########################################################################################################################
@@ -557,7 +559,7 @@ def singlePrediction():
     algorithm = request.form['algorithm']
     print('\n \n X_train \n')
     print(X_train)
-    
+
     global linear
     global LR_clf
     global DT_clf
@@ -577,28 +579,28 @@ def singlePrediction():
 
         linear_test = linear.score(X_test, y_test)*100
         linear_train = linear.score(X_train, y_train)*100
-        
-        print("\n\n\n y_pred \n\n\n\n",y_pred)
-        print("\n\n\n y_test \n\n\n\n",y_test)
-        print("\n\n\n linear_test score \n\n\n\n",linear_test)
-        print("\n\n data type  \n\n\n",type(y_pred) )
-        
+
+        print("\n\n\n y_pred \n\n\n\n", y_pred)
+        print("\n\n\n y_test \n\n\n\n", y_test)
+        print("\n\n\n linear_test score \n\n\n\n", linear_test)
+        print("\n\n data type  \n\n\n", type(y_pred))
+
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
         print(type(y_pred))
-        print("\n\n Pandas DataFrame: \n\n\n",y_pred ) 
-        
+        print("\n\n Pandas DataFrame: \n\n\n", y_pred)
+
         # y_pred = y_pred.values.tolist()
         # y_pred = jsonpify(y_pred)
-        
+
         print(type(y_pred))
         # nan  = 72
         # return y_pred
-        # d = dict(enumerate(y_pred.flatten(), 1)) 
+        # d = dict(enumerate(y_pred.flatten(), 1))
         # print("\n\n data type  \n\n\n",type(d) )
-        
+
         # return "d"
-    elif algorithm  == '2':
+    elif algorithm == '2':
         LR_clf = LogisticRegression()
         LR_clf.fit(X_train, y_train)
 
@@ -606,25 +608,25 @@ def singlePrediction():
 
         LR_clf_test = LR_clf.score(X_test, y_test)*100
         LR_clf_train = LR_clf.score(X_train, y_train)*100
-        
-        print("\n\n\n y_pred \n\n\n\n",y_pred)
-        print("\n\n\n y_test \n\n\n\n",y_test)
-        print("\n\n\n LR_clf_test score \n\n\n\n",LR_clf_test)
-        print("\n\n data type  \n\n\n",type(y_pred) )
-        
+
+        print("\n\n\n y_pred \n\n\n\n", y_pred)
+        print("\n\n\n y_test \n\n\n\n", y_test)
+        print("\n\n\n LR_clf_test score \n\n\n\n", LR_clf_test)
+        print("\n\n data type  \n\n\n", type(y_pred))
+
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
         print(type(y_pred))
-        print("\n\n Pandas DataFrame: \n\n\n",y_pred ) 
-        
+        print("\n\n Pandas DataFrame: \n\n\n", y_pred)
+
         # y_pred = y_pred.values.tolist()
         # y_pred = jsonpify(y_pred)
-        
+
         print(type(y_pred))
         # predictedFile()
         # return y_pred
-    
-    elif algorithm  == '3':
+
+    elif algorithm == '3':
         DT_clf = DecisionTreeClassifier()
         DT_clf.fit(X_train, y_train)
 
@@ -632,23 +634,23 @@ def singlePrediction():
 
         DT_clf_test = DT_clf.score(X_test, y_test)*100
         DT_clf_train = DT_clf.score(X_train, y_train)*100
-        
-        print("\n\n\n y_pred \n\n\n\n",y_pred)
-        print("\n\n\n X_test \n\n\n\n",X_test)
+
+        print("\n\n\n y_pred \n\n\n\n", y_pred)
+        print("\n\n\n X_test \n\n\n\n", X_test)
         # print("\n\n\n LR_clf_test score \n\n\n\n",LR_clf_test)
-        
+
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
         print(type(y_pred))
-        print("\n\n Pandas DataFrame: \n\n\n",y_pred ) 
-        
+        print("\n\n Pandas DataFrame: \n\n\n", y_pred)
+
         # y_pred = y_pred.values.tolist()
         # y_pred = jsonpify(y_pred)
-        
+
         print(type(y_pred))
         # return y_pred
-    
-    elif algorithm  == '4':
+
+    elif algorithm == '4':
         knn_clf = KNeighborsClassifier(n_neighbors=1)
         knn_clf.fit(X_train, y_train)
 
@@ -656,25 +658,24 @@ def singlePrediction():
 
         knn_clf_test = knn_clf.score(X_test, y_test)*100
         knn_clf_train = knn_clf.score(X_train, y_train)*100
-        
-        print("\n\n\n y_pred \n\n\n\n",y_pred)
-        print("\n\n\n X_test \n\n\n\n",X_test)
-        
-        print("\n\n\n LR_clf_test score \n\n\n\n",knn_clf_test)
-        
+
+        print("\n\n\n y_pred \n\n\n\n", y_pred)
+        print("\n\n\n X_test \n\n\n\n", X_test)
+
+        print("\n\n\n LR_clf_test score \n\n\n\n", knn_clf_test)
+
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
         print(type(y_pred))
-        print("\n\n Pandas DataFrame: \n\n\n",y_pred ) 
-        
+        print("\n\n Pandas DataFrame: \n\n\n", y_pred)
+
         # y_pred = y_pred.values.tolist()
         # y_pred = jsonpify(y_pred)
-        
+
         print(type(y_pred))
         # return y_pred
-    
-    
-    elif algorithm  == '5':
+
+    elif algorithm == '5':
         nbclf = naive_bayes.GaussianNB()
         nbclf.fit(X_train, y_train)
 
@@ -682,22 +683,22 @@ def singlePrediction():
 
         nbclf_test = nbclf.score(X_test, y_test)*100
         nbclf_train = nbclf.score(X_train, y_train)*100
-        
-        print("\n\n\n y_pred \n\n\n\n",y_pred)
-        print("\n\n\n X_test \n\n\n\n",X_test)
-        
+
+        print("\n\n\n y_pred \n\n\n\n", y_pred)
+        print("\n\n\n X_test \n\n\n\n", X_test)
+
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
         print(type(y_pred))
-        print("\n\n Pandas DataFrame: \n\n\n",y_pred ) 
-        
+        print("\n\n Pandas DataFrame: \n\n\n", y_pred)
+
         # y_pred = y_pred.values.tolist()
         # y_pred = jsonpify(y_pred)
-        
+
         print(type(y_pred))
         # return y_pred
-    
-    elif algorithm  == '6':
+
+    elif algorithm == '6':
         RF_clf = RandomForestClassifier(random_state=5)
         RF_clf.fit(X_train, y_train)
 
@@ -705,23 +706,23 @@ def singlePrediction():
 
         RF_clf_test = RF_clf.score(X_test, y_test)*100
         RF_clf_train = RF_clf.score(X_train, y_train)*100
-        
-        print("\n\n\n y_pred \n\n\n\n",y_pred)
-        print("\n\n\n X_test \n\n\n\n",X_test)
-        
+
+        print("\n\n\n y_pred \n\n\n\n", y_pred)
+        print("\n\n\n X_test \n\n\n\n", X_test)
+
         print(type(y_pred))
         y_pred = pd.DataFrame(y_pred)
         print(type(y_pred))
-        print("\n\n Pandas DataFrame: \n\n\n",y_pred ) 
-        
+        print("\n\n Pandas DataFrame: \n\n\n", y_pred)
+
         # y_pred = y_pred.values.tolist()
         # y_pred = jsonpify(y_pred)
-        
+
         print(type(y_pred))
         # return y_pred
-        
+
     # predictedFile()
-        
+
     y_pred2 = y_pred.values.tolist()
     #y_pred2 = jsonpify(y_pred2)
     y_test2 = y_test.values.tolist()
@@ -739,11 +740,10 @@ def singlePrediction():
     # return jsonify([columnData])
 
     # return y_pred2
-    # return y_pred2   
+    # return y_pred2
     # print("\n\n\n y_pred2 \n\n\n\n",y_pred2.shape)
-    # print("\n\n\n y_test2 \n\n\n\n",y_test2.shape) 
-    return jsonify(y_pred2,y_test2)
-
+    # print("\n\n\n y_test2 \n\n\n\n",y_test2.shape)
+    return jsonify(y_pred2, y_test2)
 
 
 # #########################################################################################################################
@@ -756,7 +756,7 @@ def singlePrediction():
 def columnsNames():
     columns = list(data_frame1.columns.values)
     data_frame2 = data_frame1.values.tolist()
-    return jsonify(columns,data_frame2)
+    return jsonify(columns, data_frame2)
 
 # #########################################################################################################################
 
@@ -781,8 +781,8 @@ def predictedColumn():
 def firstColumn():
     global X
     global data_frame
-    firstColumn = data_frame1.iloc[:,0]
-    print (data_frame1)
+    firstColumn = data_frame1.iloc[:, 0]
+    print(data_frame1)
     firstColumn = firstColumn.values.tolist()
     # y2 = jsonpify(y2)
     print("\n\n firstColumn \n", type(firstColumn))
